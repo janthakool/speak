@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
+import { CategoryInfo } from '../../models/category';
 
 @Component({
   selector: 'app-add-category',
@@ -8,7 +9,7 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
   styleUrls: ['./add-category.component.css']
 })
 export class AddCategoryComponent implements OnInit {
-
+  @Input() dataEdit: CategoryInfo;
   constructor(private ngbActiveModal: NgbActiveModal) { }
 
   ngOnInit() {

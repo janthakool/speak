@@ -3,8 +3,9 @@ import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { firebaseConfig } from '../firebase.config';
 import * as firebase from 'firebase/app';
 import { ProfileInfo } from '../models/profile-info';
-import { Category } from '../models/category';
+import { Category, CategoryInfo } from '../models/category';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -23,6 +24,17 @@ export class FirebaseService {
     this.categoryList.push(data);
   }
 
+  getCategory(): Observable<CategoryInfo[]>{
+    return this.categoryList.snapshotChanges().map(actions => {
+      return actions.map(action => ({ key: action.key, value: action.payload.val() }));
+      });
+  }
 
+  updateCategory(key: string, data: Category){
+    this.categoryList.update(key, data);
+  }
 
+  deleteCategory(key: string){
+    this.categoryList.remove(key);
+  }
 }

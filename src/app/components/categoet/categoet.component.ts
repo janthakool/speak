@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { Category, CategoryInfo } from '../../models/category';
 import { FirebaseService } from '../../services/firebase-service.service';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+
 
 @Component({
   selector: 'app-categoet',
@@ -10,27 +10,33 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
   styleUrls: ['./categoet.component.css']
 })
 export class CategoetComponent implements OnInit {
-  categoryList: AngularFireList<Category>;
   categoryInfo: CategoryInfo[];
 
   constructor(
     private modalService: ModalService,
-    private firebaseService: FirebaseService,
-    private db: AngularFireDatabase) {
-    this.categoryList = db.list('category');
-  }
+    private firebaseService: FirebaseService
+  ) { }
 
   ngOnInit() {
-    this.categoryList.snapshotChanges().map(actions => {
-      return actions.map(action => ({ key: action.key, value: action.payload.val() }));
-    }).subscribe(items => {
-      this.categoryInfo = items;
+    this.firebaseService.getCategory().subscribe((item) => {
+      this.categoryInfo = item;
     });
   }
   add() {
-    this.modalService.addCategory().result.then((response: Category) => {
+    this.modalService.category().result.then((response: Category) => {
       this.firebaseService.saveCategory(response);
 
     }, () => { });
+  }
+
+  edit(data: CategoryInfo){
+    this.modalService.category(data).result.then((response: Category) => {
+      this.firebaseService.updateCategory(data.key,response);
+
+    }, () => { });
+  }
+
+  delete(data: CategoryInfo){
+    this.firebaseService.deleteCategory(data.key);
   }
 }

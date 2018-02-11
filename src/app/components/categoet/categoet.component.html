@@ -28,9 +28,9 @@
 
         <td>
 
-          <button type="button" class="btn btn-primary">แก้ไข</button>
+          <button type="button" (click)="edit(data)" class="btn btn-primary">แก้ไข</button>
 
-          <button type="button" class="btn btn-danger">ลบ</button>
+          <button type="button" (click)="delete(data)" class="btn btn-danger">ลบ</button>
         </td>
 
         <td>{{i+1}}</td>
