@@ -12,7 +12,12 @@ import { FirebaseService } from './services/firebase-service.service';
 import { HomeComponent } from './components/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CategoetComponent } from './components/categoet/categoet.component';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { ModalService } from './services/modal.service';
+import { FormsModule } from '@angular/forms';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 const routes: Routes = [
   { path: 'category', component: CategoetComponent},
@@ -27,15 +32,22 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    CategoetComponent
+    CategoetComponent,
+    AddCategoryComponent
   ],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    NgbModule.forRoot(),
+    FormsModule,
+    AngularFireDatabaseModule
   ],
-  providers: [FirebaseService],
+  entryComponents:[
+    AddCategoryComponent
+  ],
+  providers: [FirebaseService, ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
